@@ -1,0 +1,48 @@
+Formatting a drive :
+
+1) sudo fdisk -l
+
+List all partitions on all available disks.
+
+2) sudo wipefs --all /dev/sdb
+
+3) sudo wipefs --all /dev/sdb
+
+4) For FAT32 --
+
+sudo mkfs.vfat /dev/sdb1
+
+5) For NTFS --
+
+sudo mkfs.ntfs /dev/sdb1
+
+6) For exFAT --
+
+sudo mkfs.exfat /dev/sdb1
+
+7) Verify USB Drive Formatting
+
+sudo fsck /dev/sdb1
+
+8) Adding a recurring process in linux using contrab --
+
+crontab -e
+
+Add the following line to schedule a job that cleans the /tmp directory every minute:
+
+* * * * * find /tmp -mindepth 1 -delete
+
+The five asterisks represent the schedule for the cron job, indicating minutes, hours, days of the month, months, and days of the week, respectively.
+(*) in each position means "every." So, * * * * * means every minute.
+
+find /tmp: This is the find command that searches for files and directories in the /tmp directory.
+
+-mindepth 1: This option ensures that find does not include the top-level directory itself in the search. It starts the search from the second level and deeper.
+
+-delete: This option of the find command deletes the files and directories that match the specified criteria. In this case, it deletes all files and directories within.
+
+9) Monitor SSD Health --
+
+sudo apt install smartmontools
+
+sudo smartctl -a /dev/nvme0

@@ -1,0 +1,116 @@
+sudo apt install samba -y
+
+systemctl status smbd
+
+sudo vim /etc/samba/smb.conf
+
+To configure the identification settings, uncomment the workgroup and server string parameters and add these values:
+
+workgroup = WORKGROUP
+
+server string = samba_server
+
+Debugging
+
+The Debugging subsection has four parameters. Set them as follows:
+
+log file = /var/log/samba/log.%m
+max log size = 1000
+logging = file
+panic action = /usr/share/samba/panic-action %d
+
+Set Up a User Account
+
+To create a user account, set a username and password with:
+
+sudo smbpasswd -a username
+
+To add a new user to Samba and the system, use adduser:
+
+sudo adduser username
+
+sudo smbpasswd -a new_user
+
+Configure Samba Share Directory Settings
+
+[sharing]
+comment = Samba share directory
+path = /home/sharing
+read only = no
+writable = yes
+browseable = yes
+guest ok = no
+valid users = @saraz @new_user
+
+sudo systemctl restart smbd
+
+Create a credentials file --
+
+sudo nano /etc/samba/smbcredentials
+
+username=<your_username>
+password=<your_password>
+
+sudo chmod 600 /etc/samba/smbcredentials
+
+Add in smb.conf --
+
+client signing = yes
+client use spnego = yes
+
+Connect to the Windows Printer Share:
+
+smbclient //<windows_host>/<share_name> -U <username>%<password>
+
+smbclient //<windows_host>/<printer_share_name> -U <windows_username>
+
+smbclient -L //<windows_host> -U <username>
+
+smbclient //192.168.1.13/MyPrinter -U WORKGROUP\rachit.saksena
+
+Enter the Password
+
+For printing a file --
+
+print filename.txt
+
+Applying command in same line --
+
+smbclient //<windows_host>/<printer_share_name> -U <username> -c "print <filename>"
+
+smbclient //192.168.1.100/MyPrinter -U WORKGROUP\rachit -c "print /path/to/your/file.pdf"
+
+Adding the printer in CUPS --
+
+sudo lpadmin -p PrinterName -E -v smb://<windows_host>/<printer_share_name> -P /path/to/printer/driver -o printer-is-shared=false -o auth-info-required=username,password
+
+sudo lpadmin -p MyWindowsPrinter -E -v smb://192.168.1.100/MyPrinter -P /usr/share/ppd/printer-driver.ppd -o printer-is-shared=false -o auth-info-required=workgroup/username%password
+
+sudo lpadmin -d PrinterName //For setting this printer as default
+
+sudo systemctl restart cups
+
+How to add printer in cups localhost via smb --
+
+smb://WORKGROUP\Rachit.Saksena:P%40%24%24w0rd1@192.168.168.13/MyPrinter
+
+smb in CUPS do not support special characters.
+Here special characters in password are converted to hexadecimal values.
+Password -- P@$$w0rd1
+@ - %40
+$ - %24
+
+Create a directory to print files in linux --
+
+mkdir ~/PrintQueue
+
+chmod 777 ~/PrintQueue
+
+sudo nano /etc/samba/smb.conf
+
+[PrintQueue]
+    path = /home/your_username/PrintQueue
+    read only = no
+    guest ok = yes
+
+sudo service smbd restart
