@@ -46,3 +46,21 @@ find /tmp: This is the find command that searches for files and directories in t
 sudo apt install smartmontools
 
 sudo smartctl -a /dev/nvme0
+
+10) Create a shortcut for Linux commands --
+
+sudo nano ~/.bashrc
+
+add --
+
+alias mycommand='actual long command' //Make sure not add space between, it does not support.
+
+source ~/.bashrc
+
+11) Get hardware information --
+
+sudo dmidecode
+
+lshw
+
+lscpu
