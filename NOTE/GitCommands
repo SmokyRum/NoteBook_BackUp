@@ -1,0 +1,94 @@
+2) git config --global user.name "<user_name>"
+
+3) git config --global user.email "<email>"
+
+4) git config --list
+
+5) Create an Access Token from github developer options --
+
+git remote add origin <GitHub URL>
+
+git remote set-url origin https://<Access_Token>@github.com/SmokyRum/Notes.git
+
+6) git add . //adds all changes
+
+7) git commit -m "<Your_Message>"
+
+8) git push origin <branch_name>
+
+9) git status
+
+10) git remote -v //gives info about configuration
+
+11) git init //Initialize git to a folder
+
+12) git log //Gives info about all commits
+
+13) Compare between two commits --
+
+git diff <commit1> <commit2>
+
+14) For a particular file
+
+git diff <commit1> <commit2> -- <file>
+
+15) show full detail about a commit --
+
+git show <commit>
+
+16) git remote show origin
+
+show information about origin
+
+17) Create a new branch --
+
+git branch <new_branch_name>
+
+18) Switch to a branch --
+
+git checkout <branch_name>
+
+git switch <branch_name>
+
+19) Create and switch within one line --
+
+git checkout -b <new_branch_name>
+git switch -c <new_branch_name>
+
+20) show all branches --
+
+git branch
+
+21) To delete a local branch --
+
+git branch -d <branch_name>
+
+To force delete --
+
+git branch -D <branch_name>
+
+22) git rev-parse HEAD
+
+Displays the full SHA-1 hash of the current HEAD commit.
+
+23) git log -1 HEAD
+
+Shows details of the current HEAD commit, including message, author, and timestamp.
+
+24) Uncommit changes in git repo --
+
+git reset --soft HEAD~1
+
+This moves the HEAD pointer back one commit, but your changes remain staged and ready for a new commit.
+
+git reset HEAD~1
+
+This undoes the commit and puts the changes back into your working directory, unstaged and ready for further modification.
+
+git reset --hard HEAD~1
+
+This completely wipes out the last commit and any uncommitted changes in your working directory. Use this option with extreme care as it's irreversible.
+
+git revert <commit_hash>
+
+This creates a new commit that reverses the changes introduced in the specified commit, preserving the original commit history.
