@@ -2,9 +2,9 @@ import csv
 from fuzzywuzzy import fuzz
 
 input_json = {
-    "ItemId" : "MESRD2503Q",
-    "CaratWeightVersion" : "167",
-    "MetalColor" : "D"
+    "ItemId" : "MR2294Q",
+    "CaratWeightVersion" : "22",
+    "MetalColor" : "W"
 }
 
 def csv_to_json(filepath):
@@ -30,18 +30,20 @@ def find_best_field(json_data, input_data):
             if similarity > max_similarity:
                 max_similarity = similarity
                 best_field = field_key
-                best_image_url = entry.get('image_url')
+                best_image_url = entry.get('Id')
+                # best_image_url.append(entry.get('image_url'))
 
     return best_field, max_similarity, best_image_url
 
 
 
 # Example usage
-file_path = '/home/rachit/Documents/NoteBook_BackUp/CODE/CSV_Query/outputNEW.csv'
+file_path = '/home/rachit/Documents/NoteBook_BackUp/CODE/CSV_Query/output.csv'
 # result = find_value_based_on_condition_pandas(file_path, 'image_url', '', 'some_condition')
 output = csv_to_json(file_path)
 # print(output)
 
-best_field, best_image_url, similarity_score = find_best_field(output, input_json)
+best_field, similarity_score, best_image_url = find_best_field(output, input_json)
 print(f"The best field is: {best_field} with a similarity score of {similarity_score}")
 print(f"The corresponding image_url is: {best_image_url}")
+# print(best_image_url)
